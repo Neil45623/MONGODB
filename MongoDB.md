@@ -233,5 +233,7 @@ db.salles.find({avis: {$elemMatch: {note: {$gte: 8, $lte: 10}}}}, {nom: 1}) // a
 
 EX10 :
 
+db.salles.find({avis: {$elemMatch: {date: {$gt: new Date('2019-11-15')}}}}, {nom: 1, _id: 0}) // AFFICHE LES SALLES QUI POSSSEDE un avis avant le 15/11/2019
+
 
 ```
