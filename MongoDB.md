@@ -172,28 +172,66 @@ Document : les document présent au sein d'une meme collection peuvent avoir des
 Malgré cela, ils ont une utilisation similaire et reste très similaire
 
 EXO JOUR 1 :
+```javascript
 
-db.collection.find()---> cherche dans la collection des informations
+
+
+db.collection.find() //cherche dans la collection des informations
 db.collection.find({}).sort({})
 
-use "nom de bdd"---> créé une bdd ou switch su r une existante
+use "nom de bdd" //créé une bdd ou switch su r une existante
 
-db.createcollection("macollection")---> créé une collection
+db.createcollection("macollection") //créé une collection
 
 db.colllection.aggregate
 
-sample_db> db.employee.updateMany( {job: "Developer"}, {$set:{Salary:"80000"}}) ---> def salaire
+sample_db> db.employee.updateMany( {job: "Developer"}, {$set:{Salary:"80000"}}) //def salaire
 
-sample_db> db.salles.find({ "smac" : true}) ---> trouver toutes les salles smac
+db.employee.find().sort({Salary: "-1"}) //range par ordre croissant les salaires
 
-db.salles.find({ "capacite" :{$gte : 1000}}) ---> capacité superieur ou egale a 1000
+db.employee.find({age:{$gt: "33"}}) //Cherche tout les utilisateurs qui ont un age supérieur a 33
 
-db.employee.find().sort({Salary: "-1"}) ---> range par ordre croissant les salaires
+db.employee.updateMany( {job: "Developer"}, {$set:{Salary:"80000"}}) // Change les sallaire de tout les dev
 
-db.employee.find({age:{$gt: "33"}}) --->Cherche tout les utilisateurs qui ont un age supérieur a 33
+db.employees.aggregate([{$group: {_id: "$job", count: { $sum: 1}}}]) //Affiche le nombre d'employer par job 
 
-db.employee.updateMany( {job: "Developer"}, {$set:{Salary:"80000"}}) ---> Change les sallaire de tout les dev
+EX1 :
 
-db.employees.aggregate([{$group: {_id: "$job", count: { $sum: 1}}}]) --->Affiche le nombre d'employer par job 
+sample_db> db.salles.find({ "smac" : true}) //trouver toutes les salles smac
 
-db.salles.find({"adresse.numero": {$exists:false}})
+EX2 :
+
+db.salles.find({ "capacite" :{$gte : 1000}}) // capacité superieur ou egale a 1000
+
+EX3 :
+
+db.salles.find({"adresse.numero": {$exists:false}}) //affiche toute les salles ou le champs adresse ne comporte pas de numéro
+
+EX4 :
+
+db.salles.find({avis: {$size:1}},{_id:1, nom:1})// affiche les identifiants des salles qui possède un avis
+
+EX5 :
+
+db.salles.find({styles: "blues"}, {styles:1})// affiche tous les styles musicaux des salles qui programment du blues
+
+EX6:
+
+db.salles.find({"styles.0": "blues"}, {styles:1})//// affiche tous les styles musicaux des salles qui ont du blues en première position. premiere position= "styles.0"
+
+EX7:
+
+db.salles.find({ "adresse.codePostal": { $regex: /^84/ }, "capacite": { $lt: 500 } }, { "adresse.ville": 1,}) // affiche toute les salles qui ont le code postale qui commence par 84
+
+EX8:
+
+db.salles.find({$or: [{_id: {$mod: [2, 0]}}, {avis: {$exists: false}}]}, {_id: 1}) // retourne les identifiants des salles qui ont un identifiant pair et/ou le champ avis est vide.
+
+EX9 :
+
+db.salles.find({avis: {$elemMatch: {note: {$gte: 8, $lte: 10}}}}, {nom: 1}) // affiche les salles qui ont au moins un avis et qui ont une note entre 8 et 10
+
+EX10 :
+
+
+```
