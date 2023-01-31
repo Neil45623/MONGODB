@@ -108,7 +108,7 @@ Bash
 
 Use tp
 
-```
+```json
 
 Effectuer la requete
 
@@ -116,7 +116,7 @@ Effectuer la requete
 
 Resultat du type :
 
-``` Javascript
+``` json
 
 { }
 
@@ -126,7 +126,7 @@ Vous remarquez lutilisation du mot cle 'db' il sagit dun mot cle qui renvoi vers
 
 Supression d'une bdd :
 
-```Javascript
+```json
 
 Use math
 
@@ -136,8 +136,7 @@ Db.dropdatabase()
 
 Pour verifier utilisez la commande :
 
-```
-
+```json
 Show dbs
 
 ```
@@ -154,7 +153,7 @@ Colation :
 local = localisation
 
 Pour créer une collection il suffit dutiliser :
-```
+```json
 db.createcollection(
 "macollection",
 {"colation"; {"locale" : "fr"}}
@@ -171,7 +170,7 @@ INDEX : Il stock les mots les plus important et les plus utilisés afin de facil
 
 Exemple d'index : 
 
-```javascript
+```json
 db.personnes.insertMany([    {"nom": "Durand", "prenom": "René", "interets": ["jardinage", "bricolage"], "age": 77},
     {"nom": "Durand", "prenom": "Gisèle", "interets": ["bridge", "cuisine"], "age": 75},
     {"nom": "Dupont", "prenom": "Gaston", "interets": ["jardinage",   "pétanque"], "age": 79},
@@ -184,20 +183,20 @@ db.personnes.insertMany([    {"nom": "Durand", "prenom": "René", "interets": ["
 
 ```
 Exemple d'index simple :
-```js
+```json
 db.collection.createIndex(<champs_et_type>), <option>)
 db.personnes.createIndex({"age" : 1}); // créé dans lordre croissant
 ```
 
 Comment consulter la lsite d'index d'une collection ? 
 
-```js
+```json
 db.collection.getIndex()
 ```
 
 afin de supprimer un index on utilise :
 
-```js
+```json
 db.collection.dropIndex("age_1_");
 
 db.collection.createIndex({"age" : -1}, {"name" : "unNom"});
@@ -213,23 +212,23 @@ Malgré cela, ils ont une utilisation similaire et reste très similaire
 
 TABLEAUX : 
 
-```js
+```json
 db.hobbies.insertMany([   {"_id": 1, "nom": "Yves"},   {"_id": 2, "nom": "Sandra", "passions": []},   {"_id": 3, "nom": "Line", "passions": ["Théâtre"]}  ])
 ```
 Les opérateur de tableaux : 
 
-```js
+```json
 {$push {<champs>: <valeur>, ...}}
 ```
 
 L'opérateur push êrmet d'ajouter  une ou plusieur valeur au sein d'un tableau
 
-```js
+```json
 db.hobbies.updateOne({"_id" : 1}, {$push : {"passions" : "le roller !"}});
 ```
 
 
-```js
+```json
 db.hobbies.updateOne({
 "_id" : 2
 }$push{
@@ -241,12 +240,12 @@ $each: ["Minecraft", "Rise of kingdom"]
 ```
 
 Pour eviter les doublons : 
-```js
+```json
 db.hobbies.updateOne({"_id": 2}, {$addToSet: {"passions":{$each: ["Minecreaft", "Rise of Kingdom"]}}})
 ```
 
 
-```js
+```json
 db.personnes.find({"interets" : "jardinage"})
 db.personnes.find({"interets" : {$all :["jardinage","bridge"]}}) // recherche sur toute les personne qui possède ces deux interets
 db.personnes.find({interet : {$size : 2}}) // toute les personne squi possède deux interets
@@ -256,8 +255,83 @@ db.personnes.find({"interets.1" : {$exist : 1}}) // cela sert a trouver les pers
 
 ```
 
+Les requetes geospaciales :
+```json
+{ type: <type d'objet GEOJSON>, coordinates : <coordonee>}
+
+```
+Le type point :
+```json
+{
+	"type" : "Point",
+	"coordinates" : [13.0, 1.0]
+}
+```
+Le type multipoint :
+```json
+{
+	"type" : "MultiPoint",
+	"coordinates" : [
+	[13.0, 1.0], [13.0, 3.0]
+	]
+}
+```
+Le type LineString : 
+```json
+{
+	"type" : "LineString",
+	"coordinates" : [
+	[
+	[13.0, 1.0], [13.0, 3.0]
+	],
+	[
+		[13.0, 1.0] , [13.0, 3.0]
+	]
+	]
+}
+```
+Le type polygon :
+```json
+{
+	"type" : "Polygon",
+	"coordinates" : [
+	[
+	[13.0, 1.0] , [13.0, 3.0]
+	],
+	[
+	[13.0, 1.0] , [13.0, 3.0]
+	]
+	]
+}
+```
+Création d'index :
+```json
+db.avigon.createIndex({"localisation" : "2dsphere"})
+
+db.avignon.createIndex({"localisation" : "2d"})
+
+
+```
+L'opérateur $nearSphere :
+```json
+{
+	$nearSphere : {
+		$geometry : {
+			type : "Point",
+			coordinates : [<longitude>, <latitude>]
+		},
+		$minDistance : <distance en mètres>
+		$maxDistance : <distance en mètre>
+	}
+}
+
+var opera = { type : "Point", coordinates : [43.949749, 4.805325]}
+```
+
+
+
 EXO JOUR 1-2 :
-```javascript
+```json
 
 
 
@@ -361,6 +435,54 @@ db.salles.update({nom: {$regex: '[^aeiou]+$'}}, {$push: {avis: {date: new Date()
 EX20 :
 
 db.salles.updateMany({nom: {$regex: /^[zZ]/ } }, {$set: {nom: "Pub Z", capacite: 50, smac: false}}, {upsert: true}) //mettre a jour le nom des document commencant par z ou Z en pub Z avec capacite 50 de plus on place smac en false
+
+EXO INDEX :
+
+db.salles.createIndex({"adresse.codePostal" : 1, "capacite" : 1})// codepostal et capacite contienne des données
+db.salles.dropIndex({"adresse.codePostal" : 1, "capacite" : 1}); //destruction de l'index créé
+
+EXO VALIDATION :
+
+EX1 :
+
+db.runCommand({collMod: "salles",
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["nom", "capacite", "adresse.ville", "adresse.codePostal"],
+      properties: {
+        nom: {
+          bsonType: "string",
+          description: "Type char et obligatoire"
+        },
+        capacite: {
+          bsonType: "int",
+          description: "type int et obligatoire"
+        },
+        adresse: {
+          bsonType: "object",
+          required: ["ville", "codePostal"],
+          properties: {
+            ville: {
+              bsonType: "string",
+              description: "type char et obligatoire"
+            },
+            codePostal: {
+              bsonType: "string",
+              description: "type char et obligatoire"
+            }
+          }
+        }
+      }
+    }
+  }
+}) 
+
+// De plus, l'insertion ne fonctionne pas car il manque le code postal
+
+db.salles.insertOne({"nom" : "super salle", "capacite" : 1500, "adresse" : {"ville" : "Musiqueville", "codePostal" : 01600}}) // cette insert fonctionnerait
+
+EX2 : 
 
 
 ```
