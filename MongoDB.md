@@ -211,7 +211,50 @@ Document : les document présent au sein d'une meme collection peuvent avoir des
   
 Malgré cela, ils ont une utilisation similaire et reste très similaire
 
+TABLEAUX : 
 
+```js
+db.hobbies.insertMany([   {"_id": 1, "nom": "Yves"},   {"_id": 2, "nom": "Sandra", "passions": []},   {"_id": 3, "nom": "Line", "passions": ["Théâtre"]}  ])
+```
+Les opérateur de tableaux : 
+
+```js
+{$push {<champs>: <valeur>, ...}}
+```
+
+L'opérateur push êrmet d'ajouter  une ou plusieur valeur au sein d'un tableau
+
+```js
+db.hobbies.updateOne({"_id" : 1}, {$push : {"passions" : "le roller !"}});
+```
+
+
+```js
+db.hobbies.updateOne({
+"_id" : 2
+}$push{
+"passion" : {
+$each: ["Minecraft", "Rise of kingdom"]
+}
+})
+
+```
+
+Pour eviter les doublons : 
+```js
+db.hobbies.updateOne({"_id": 2}, {$addToSet: {"passions":{$each: ["Minecreaft", "Rise of Kingdom"]}}})
+```
+
+
+```js
+db.personnes.find({"interets" : "jardinage"})
+db.personnes.find({"interets" : {$all :["jardinage","bridge"]}}) // recherche sur toute les personne qui possède ces deux interets
+db.personnes.find({interet : {$size : 2}}) // toute les personne squi possède deux interets
+db.personnes.find({"interets.1" : {$exist : 1}}) // cela sert a trouver les persones qui ont au moins 2 interets
+
+
+
+```
 
 EXO JOUR 1-2 :
 ```javascript
@@ -283,9 +326,35 @@ db.salles.find({$expr: {$gt: [{$multiply: [100, "$_id"]}, "$capacite"]}},{"nom":
 
 EX12 :
 
-db.salles.find({$where: function(){return this.smac == true && this.styles.length > 2;}},{ nom: 1, _id: 0 });
+db.salles.find({ smac: true, $where: "this.styles.length > 2"}, { nom: 1, _id: 0 }) //AFFICHE les salles smac qui ont Plus de 2 style de musique (ne fonctionne pas en version gratuite)
 
+EX13 :
 
+db.salles.distinct("adresse.codePostal") // afficher tout les code postaux
+
+EX14 :
+
+db.salles.updateMany({},{$inc:{capacite: 100}}) /// rajouter 100 de capacite a toute les salles
+
+EX15 : 
+
+db.salles.updateMany({styles: {$exists: false}}, {$push: {styles: "jazz"}}) // ajoute le style jazz a toute les alles
+
+EX16 :
+
+db.salles.updateMany({_id: {$nin: [2, 3]}}, {$pull: {"styles": "funk"}}); // rretire le style punk a toute les salles don l'id est different de 2 ET 3($nin == !=)
+
+EX17 :
+
+db.salles.update( { _id: 3 }, { $push: { styles: { $each: ["techno", "reggae"] } } } )
+// ajoute les styles techno et reggae  a la salle identifiant 3
+
+EX18 :
+
+db.salles.updateMany({nom: /^P/i}, {$inc: {capacite: 150}, $set: {contact: [{telephone: "04 11 94 00 10"}]}})
+// Pour toute les salle qui commence par P on augmente de 150 la capacite et rajoute le tableau contact avec un champs telephone
+
+EX19 : 
 
 
 ```
