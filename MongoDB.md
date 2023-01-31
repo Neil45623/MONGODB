@@ -306,7 +306,7 @@ Le type polygon :
 ```
 Création d'index :
 ```json
-db.avigon.createIndex({"localisation" : "2dsphere"})
+db.avignon.createIndex({"localisation" : "2dsphere"})
 
 db.avignon.createIndex({"localisation" : "2d"})
 
@@ -328,7 +328,11 @@ L'opérateur $nearSphere :
 var opera = { type : "Point", coordinates : [43.949749, 4.805325]}
 ```
 
-
+Effectuer une requete sur la collection avignon
+```json
+var opera = { type : "Point", coordinates : [43.949749, 4.805325]}
+	db.avignon.find({"localisation" : {$nearSphere : { $geometry : opera}}}, {"_id" : 0, "nom" : 1}).explain()
+```
 
 EXO JOUR 1-2 :
 ```json
@@ -480,9 +484,16 @@ db.runCommand({collMod: "salles",
 
 // De plus, l'insertion ne fonctionne pas car il manque le code postal
 
-db.salles.insertOne({"nom" : "super salle", "capacite" : 1500, "adresse" : {"ville" : "Musiqueville", "codePostal" : 01600}}) // cette insert fonctionnerait
+db.salles.insertOne({"nom" : "super salle", "capacite" : 1500, "adresse" : {"ville" : "Musiqueville", "codePostal" : "01600"}}) // cette insert fonctionnerait
 
 EX2 : 
 
+db.salles.updatesMany({}, {$set : {"verifie : true"}})
+
+// lorsque on essaye de mettre a jour avec cette commande une erreur apparait : car le champs verifie si il existe ou non dans le schema
+
+EX3: 
+
+db.runCommand({ collMod: "salles", validationLevel: "strict", validator: { $or: [ {smac: {$exists: true}}, {stylesMusicaux: {$in: ["jazz", "soul", "funk", "blues"]}} ] } })
 
 ```
