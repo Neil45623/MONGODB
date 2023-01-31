@@ -356,5 +356,11 @@ db.salles.updateMany({nom: /^P/i}, {$inc: {capacite: 150}, $set: {contact: [{tel
 
 EX19 : 
 
+db.salles.update({nom: {$regex: '[^aeiou]+$'}}, {$push: {avis: {date: new Date(), note: NumberInt(10)}}}) // Pour les salles commencant par une voyelle on ajoute dans le tableau avis un document composé du champ date v= date courante et note = 10
+
+EX20 :
+
+db.salles.updateMany({nom: {$regex: /^[zZ]/ } }, {$set: {nom: "Pub Z", capacite: 50, smac: false}}, {upsert: true}) //mettre a jour le nom des document commencant par z ou Z en pub Z avec capacite 50 de plus on place smac en false
+
 
 ```
