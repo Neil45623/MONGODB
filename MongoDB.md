@@ -167,11 +167,53 @@ Collection : permet de stocker des documents de manière logique / groupe de  d
 
 Schema :
 
+INDEX : Il stock les mots les plus important et les plus utilisés afin de faciliter le moyen de les retrouver. Attention si il est trop long il peut engendrer des ralentissements
+
+Exemple d'index : 
+
+```javascript
+db.personnes.insertMany([    {"nom": "Durand", "prenom": "René", "interets": ["jardinage", "bricolage"], "age": 77},
+    {"nom": "Durand", "prenom": "Gisèle", "interets": ["bridge", "cuisine"], "age": 75},
+    {"nom": "Dupont", "prenom": "Gaston", "interets": ["jardinage",   "pétanque"], "age": 79},
+    {"nom": "Dupont", "prenom": "Catherine", "interets": ["cuisine"], "age": 66},
+    {"nom": "Duport", "prenom": "Eric", "interets": ["cuisine", "pétanque"], "age": 57},
+    {"nom": "Duport", "prenom": "Arlette","interets": ["jardinage"], "age": 80},
+    {"nom": "Lejeune", "prenom": "Jean","interets": ["jardinage"], "age": 75},
+    {"nom": "Lejeune", "prenom": "Mariette","interets": ["jardinage", "bridge"], "age": 66}
+]);
+
+```
+Exemple d'index simple :
+```js
+db.collection.createIndex(<champs_et_type>), <option>)
+db.personnes.createIndex({"age" : 1}); // créé dans lordre croissant
+```
+
+Comment consulter la lsite d'index d'une collection ? 
+
+```js
+db.collection.getIndex()
+```
+
+afin de supprimer un index on utilise :
+
+```js
+db.collection.dropIndex("age_1_");
+
+db.collection.createIndex({"age" : -1}, {"name" : "unNom"});
+
+db.collection.createIndex({"prenom" : 1}, {"background" : true});
+```
+
+
+
 Document : les document présent au sein d'une meme collection peuvent avoir des champs différent (un ensemble de données clé valeur)  
   
 Malgré cela, ils ont une utilisation similaire et reste très similaire
 
-EXO JOUR 1 :
+
+
+EXO JOUR 1-2 :
 ```javascript
 
 
@@ -234,6 +276,16 @@ db.salles.find({avis: {$elemMatch: {note: {$gte: 8, $lte: 10}}}}, {nom: 1}) // a
 EX10 :
 
 db.salles.find({avis: {$elemMatch: {date: {$gt: new Date('2019-11-15')}}}}, {nom: 1, _id: 0}) // AFFICHE LES SALLES QUI POSSSEDE un avis avant le 15/11/2019
+
+EX11 :
+
+db.salles.find({$expr: {$gt: [{$multiply: [100, "$_id"]}, "$capacite"]}},{"nom": 1, "capacite": 1}) // Affiche les salles qui ont l'idx100 supérieur à la capacite (multiply sert a multiplier 100 sur l'id)($gt dis que ça affiche seulement ce qui est supérieur)($expr permet justement de detecter si IDx100 est plus grand que capacité)
+
+EX12 :
+
+db.salles.find({$where: function(){return this.smac == true && this.styles.length > 2;}},{ nom: 1, _id: 0 });
+
+
 
 
 ```
