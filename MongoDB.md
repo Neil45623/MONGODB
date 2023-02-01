@@ -334,6 +334,90 @@ var opera = { type : "Point", coordinates : [43.949749, 4.805325]}
 	db.avignon.find({"localisation" : {$nearSphere : { $geometry : opera}}}, {"_id" : 0, "nom" : 1}).explain()
 ```
 
+Le framework d'agregation : 
+
+Mongodb met a disposition un puissant outil d'analyse et de traitement de l'information : le pipeline d'agregation(ou framework)
+
+Metaphore du tapis roulant d'usine  / traitement du document telle le tapis roulant
+
+Methode utilisée : 
+```json
+db.collection.aggregate(pipeline, options)
+```
+pipeline = designe un tableau d'etapes
+options = designe un document
+
+Parmis les options, nous retiendrons : 
+-collation, permet d'affecter une collation a l'operation d'agregation
+-bypassDocumentValidation : fonctionne avec un opérateur appelé $out et permet de passer au travers de la validation des docs.
+-allowDiskuse : donne la possibilité de faire deborder les operations d'ecriture sur le disque.
+
+Vous pouvez appeler aggregate sans argument :
+```json
+db.personnes.aggregate()
+```
+Au sein du shell, nous allons créer une variable pipeline : 
+```js
+var pipeline = {}
+db.personnes.aggregate(pipeline)
+db.personnes.aggregate(
+pipeline,
+{
+	"collation" : {
+		"locale" : "fr"
+	}
+}
+)
+```
+Le filtrage avec $match :
+
+Cela permet d'obtenr des pipelines performants avec des temps d'execution courts.
+Normalement $match doit intervenir  le plus en amont possible dans le pipeline car $match agit comme un filtre en reduisant le nombre de document a traiter plus en aval dans le pipeline. (Dans l'ideal on devrait le trouver comme premier operateur)
+
+La syntaxe est la suivante :
+```js
+	{$match : {<requete>}}
+```
+
+```js
+var pipeline = [{
+	$match : {
+		"interets" : "jardinage"
+	},
+	$match : {
+		"nom" : /^L/,
+		"age" : {$gt : 70}
+	}, {
+		$project : {
+			"_id" : 0,
+			"nom" : 1,
+			"prenom" : 1,
+			"super_senior" : {$gte : ["$age",70]}
+		}
+	},
+	{
+	$match : {
+		"super_senior" : true
+	}
+	}
+}
+]
+db.personnes.aggregate(pipeline)
+```
+Cela correspond à la requete
+```js
+db.personnes.find({"interets" : "jardinage"})
+```
+
+#### Selection/modification de champs: $project
+
+syntaxe :
+```js
+{$project : { <spec> }}
+```
+
+
+
 EXO JOUR 1-2 :
 ```js
 
@@ -497,3 +581,15 @@ EX3:
 db.runCommand({ collMod: "salles", validationLevel: "strict", validator: { $or: [ {smac: {$exists: true}}, {stylesMusicaux: {$in: ["jazz", "soul", "funk", "blues"]}} ] } })// permet de rajouter des critère de validation
 
 ```
+
+EVAL : 
+
+installation de mongo tools , ajout dans les variable du PC puis importation des données json avec la commande :
+
+```json
+mongoimport --db Evaluation --collection Pays --file Infos.json mongodb+srv://test:bLdDVadMREeSumR1@cluster0.onvn7qm.mongodb.net/?retryWrites=true // POUR JSON
+
+
+mongoimport --db Evaluation --collection Restaurants --type csv --file pizza_hut_locations.csv --headerline mongodb+srv://test:bLdDVadMREeSumR1@cluster0.onvn7qm.mongodb.net/?retryWrites=true // pour un csv
+```
+
