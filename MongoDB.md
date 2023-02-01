@@ -108,7 +108,7 @@ Bash
 
 Use tp
 
-```json
+```js
 
 Effectuer la requete
 
@@ -126,7 +126,7 @@ Vous remarquez lutilisation du mot cle 'db' il sagit dun mot cle qui renvoi vers
 
 Supression d'une bdd :
 
-```json
+```js
 
 Use math
 
@@ -136,7 +136,7 @@ Db.dropdatabase()
 
 Pour verifier utilisez la commande :
 
-```json
+```js
 Show dbs
 
 ```
@@ -153,7 +153,7 @@ Colation :
 local = localisation
 
 Pour créer une collection il suffit dutiliser :
-```json
+```js
 db.createcollection(
 "macollection",
 {"colation"; {"locale" : "fr"}}
@@ -170,7 +170,7 @@ INDEX : Il stock les mots les plus important et les plus utilisés afin de facil
 
 Exemple d'index : 
 
-```json
+```js
 db.personnes.insertMany([    {"nom": "Durand", "prenom": "René", "interets": ["jardinage", "bricolage"], "age": 77},
     {"nom": "Durand", "prenom": "Gisèle", "interets": ["bridge", "cuisine"], "age": 75},
     {"nom": "Dupont", "prenom": "Gaston", "interets": ["jardinage",   "pétanque"], "age": 79},
@@ -183,20 +183,20 @@ db.personnes.insertMany([    {"nom": "Durand", "prenom": "René", "interets": ["
 
 ```
 Exemple d'index simple :
-```json
+```js
 db.collection.createIndex(<champs_et_type>), <option>)
 db.personnes.createIndex({"age" : 1}); // créé dans lordre croissant
 ```
 
 Comment consulter la lsite d'index d'une collection ? 
 
-```json
+```js
 db.collection.getIndex()
 ```
 
 afin de supprimer un index on utilise :
 
-```json
+```js
 db.collection.dropIndex("age_1_");
 
 db.collection.createIndex({"age" : -1}, {"name" : "unNom"});
@@ -212,23 +212,23 @@ Malgré cela, ils ont une utilisation similaire et reste très similaire
 
 TABLEAUX : 
 
-```json
+```js
 db.hobbies.insertMany([   {"_id": 1, "nom": "Yves"},   {"_id": 2, "nom": "Sandra", "passions": []},   {"_id": 3, "nom": "Line", "passions": ["Théâtre"]}  ])
 ```
 Les opérateur de tableaux : 
 
-```json
+```js
 {$push {<champs>: <valeur>, ...}}
 ```
 
 L'opérateur push êrmet d'ajouter  une ou plusieur valeur au sein d'un tableau
 
-```json
+```js
 db.hobbies.updateOne({"_id" : 1}, {$push : {"passions" : "le roller !"}});
 ```
 
 
-```json
+```js
 db.hobbies.updateOne({
 "_id" : 2
 }$push{
@@ -240,12 +240,12 @@ $each: ["Minecraft", "Rise of kingdom"]
 ```
 
 Pour eviter les doublons : 
-```json
+```js
 db.hobbies.updateOne({"_id": 2}, {$addToSet: {"passions":{$each: ["Minecreaft", "Rise of Kingdom"]}}})
 ```
 
 
-```json
+```js
 db.personnes.find({"interets" : "jardinage"})
 db.personnes.find({"interets" : {$all :["jardinage","bridge"]}}) // recherche sur toute les personne qui possède ces deux interets
 db.personnes.find({interet : {$size : 2}}) // toute les personne squi possède deux interets
@@ -256,7 +256,7 @@ db.personnes.find({"interets.1" : {$exist : 1}}) // cela sert a trouver les pers
 ```
 
 Les requetes geospaciales :
-```json
+```js
 { type: <type d'objet GEOJSON>, coordinates : <coordonee>}
 
 ```
@@ -305,7 +305,7 @@ Le type polygon :
 }
 ```
 Création d'index :
-```json
+```js
 db.avignon.createIndex({"localisation" : "2dsphere"})
 
 db.avignon.createIndex({"localisation" : "2d"})
@@ -313,7 +313,7 @@ db.avignon.createIndex({"localisation" : "2d"})
 
 ```
 L'opérateur $nearSphere :
-```json
+```js
 {
 	$nearSphere : {
 		$geometry : {
@@ -329,13 +329,13 @@ var opera = { type : "Point", coordinates : [43.949749, 4.805325]}
 ```
 
 Effectuer une requete sur la collection avignon
-```json
+```js
 var opera = { type : "Point", coordinates : [43.949749, 4.805325]}
 	db.avignon.find({"localisation" : {$nearSphere : { $geometry : opera}}}, {"_id" : 0, "nom" : 1}).explain()
 ```
 
 EXO JOUR 1-2 :
-```json
+```js
 
 
 
@@ -494,6 +494,6 @@ db.salles.updatesMany({}, {$set : {"verifie : true"}})
 
 EX3: 
 
-db.runCommand({ collMod: "salles", validationLevel: "strict", validator: { $or: [ {smac: {$exists: true}}, {stylesMusicaux: {$in: ["jazz", "soul", "funk", "blues"]}} ] } })
+db.runCommand({ collMod: "salles", validationLevel: "strict", validator: { $or: [ {smac: {$exists: true}}, {stylesMusicaux: {$in: ["jazz", "soul", "funk", "blues"]}} ] } })// permet de rajouter des critère de validation
 
 ```
