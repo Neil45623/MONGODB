@@ -408,6 +408,10 @@ Cela correspond à la requete
 ```js
 db.personnes.find({"interets" : "jardinage"})
 ```
+EXO cours :
+```js
+db.personnes.updateMany({"nom": "Durand"}, {$set: {"adresse": {"cp": 84140, "ville": "Montfavet"}}})    db.personnes.updateMany({"nom": "Dupont"}, {$set: {"adresse": {"cp": 13480, "ville": "Calas"}}})
+```
 
 #### Selection/modification de champs: $project
 
