@@ -13,13 +13,38 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "MongoDB.md",
+                "file": "MongoDB cours.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "3397d48ccd69a136",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Exercice.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "7c2227f08c66bbc8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Evaluation.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -85,7 +110,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "MongoDB.md",
+                "file": "Evaluation.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +127,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "MongoDB.md",
+                "file": "Evaluation.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +150,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "MongoDB.md"
+                "file": "Evaluation.md"
               }
             }
           }
@@ -146,11 +171,13 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "cb9456b98c2508f8",
+  "active": "7c2227f08c66bbc8",
   "lastOpenFiles": [
+    "MongoDB cours.md",
+    "Exercice.md",
+    "Evaluation.md",
     "Untitled 3.md",
     "Untitled 2.md",
-    "Untitled 1.md",
-    "MongoDB.md"
+    "Untitled 1.md"
   ]
 }
