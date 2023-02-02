@@ -1,6 +1,6 @@
-all_the_fields
-
-
-
-
-
+name,_id,location,coordinates,type
+Tour eiffel,ObjectId(63db9a328a686c395940216d),"{""type"":""Point"",""coordinates"":[2.294481,48.85837]}",,
+Notre-Dame,ObjectId(63db9a328a686c395940216e),"{""type"":""Point"",""coordinates"":[2.351406,48.852968]}",,
+Le musée du louvre,ObjectId(63db9a328a686c395940216f),"{""type"":""Point"",""coordinates"":[2.335228,48.860838]}",,
+Basilic,ObjectId(63db9a328a686c3959402170),"{""type"":""Point"",""coordinates"":[2.344791,48.885837]}",,
+Arc de Triomphe,ObjectId(63db9a328a686c3959402171),"{""type"":""Point"",""coordinates"":[2.295028,48.873792]}",,

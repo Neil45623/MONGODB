@@ -2,43 +2,33 @@
 
 MongoDb sert à la gestion de base de données.
 
-création dun compte mOngoDB atlas
+Pour commencer, on réalise la création d'un compte mongoDB atlas
 
-Lorsque on fait du js utilisez du typescript
-
-Optimiser le temps d'execution avec un index
+L'index va nous permettre d'optimiser le temps de recherche.
 
 Pourquoi le format json ?
 
 Format très répendu / aucune structure imposé / Les documents permettent la gestion dune quantité immense de données
 
-MONGODB est une base orienté document
-
-Unité de stockage --> document
+MONGODB est une base orienté document(unité de stockage)
 
 Le document est stocké dans un containers et n'a pas de schema prédéfini
 
-2 document peuvent contenir les même champs (objet) (stocké en json)
-
-EN mysql on a plusieurs contrainte :
-
-Solution pour un champs "système"
-
-On créé un table adresse pour alléger la table utilisateur
+2 document peuvent contenir les même champs
 
 MOngoDb est crossplateform
 
-Base de données stock des collection
+Base de données stock des collections
 
 Le schema des documents est dis "dynamique"
 
 mongoDB est convertible avec toute les techno back
 
-Gros désavantage de mongo : beuacoup d'information sont dupliqué(n'a pas dimpact en performance mais en applicatif si)
+Gros désavantage de mongo : beaucoup d'information sont dupliqué(n'a pas dimpact en performance mais en applicatif si)
 
 Il faut savoir se détacher du relationnel pour pouvoir bien utiliser mongoDB
 
-AVNATAGE :
+AVANTAGE :
 
 MONGODB est fait pour la monter en charge / plus besoin d'ORM
 
@@ -104,31 +94,11 @@ MongoDB apporte ces propres types a ceux rencontrés au sein du format JSON stan
 
 On peut utiliser "use" pour se connecter a une bdd inexistante et  a linsertion du premier document cela creera la bdd
 
-Bash
-
-Use tp
-
-```js
-
-Effectuer la requete
-
-```
-
-Resultat du type :
-
-``` json
-
-{ }
-
-```
-
-Vous remarquez lutilisation du mot cle 'db' il sagit dun mot cle qui renvoi vers la bdd en corus dutilisation la combinaison 'db.unecollection' constitue une 'namespace'en mongodb
+Vous remarquez lutilisation du mot cle 'db' il sagit dun mot cle qui renvoi vers la bdd en cours d'utilisation la combinaison 'db.unecollection' constitue une 'namespace'en mongodb
 
 Supression d'une bdd :
 
 ```js
-
-Use math
 
 Db.dropdatabase()
 

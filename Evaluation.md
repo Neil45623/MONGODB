@@ -111,6 +111,6 @@ H/ Exportez les résultats des requêtes dans un fichier CSV pour un usage ulté
 
 ```js
 
-mongoexport --uri mongodb+srv://test:bLdDVadMREeSumR1@cluster0.onvn7qm.mongodb.net/?retryWrites=true --db Evaluation --collection loc --type=csv --out loc.csv --fields all_the_fields 
+mongoexport --uri mongodb+srv://test:bLdDVadMREeSumR1@cluster0.onvn7qm.mongodb.net/?retryWrites=true --db Evaluation --collection Comment --type=csv --out Comment.csv --fields name,comment
 ```
 
