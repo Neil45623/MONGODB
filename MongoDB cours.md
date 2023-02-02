@@ -314,7 +314,7 @@ Methode utilisée :
 ```json
 db.collection.aggregate(pipeline, options)
 ```
-pipeline = designe un tableau d'etapes
+pipeline = designe un tableau d'etapes /Le pipeline d'agrégation est le mécanisme utilisé dans MongoDB pour traiter les données en une série d'étapes. Il sert à appliquer un ensemble de transformations.
 options = designe un document
 
 Parmis les options, nous retiendrons : 
