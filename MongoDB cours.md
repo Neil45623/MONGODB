@@ -1,6 +1,6 @@
-MONGODB ---> Fuir le SQL
 
-GESTION DE BASE DE DONNEE
+
+MongoDb sert à la gestion de base de données.
 
 création dun compte mOngoDB atlas
 
