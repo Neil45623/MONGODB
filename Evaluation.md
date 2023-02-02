@@ -110,6 +110,7 @@ db.Comment.aggregate([ {$unwind: "$comment"}, {$group: {_id: "$name", totalComme
 H/ Exportez les résultats des requêtes dans un fichier CSV pour un usage ultérieur. Utilisez la commande mongoexport pour exporter des données de MongoDB.
 
 ```js
-mongoexport --uri=mongodb+srv://test:bLdDVadMREeSumR1@cluster0.onvn7qm.mongodb.net/?retryWrites=true --db=Evaluation --out=bdd.csv
+
+mongoexport --uri mongodb+srv://test:bLdDVadMREeSumR1@cluster0.onvn7qm.mongodb.net/?retryWrites=true --db Evaluation --collection loc --type=csv --out loc.csv --fields all_the_fields 
 ```
 
